@@ -88,7 +88,7 @@ function forecast(cityid){
 		.then(function(responseForecast) {
 			return responseForecast.json()
 		})
-		.then(function(responseForcast) {	
+		.then(function(responseForecast) {	
 			for (i = 0; i < 5; i++){
 				var date = new Date((responseForecast.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
 				var iconCode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
@@ -106,16 +106,16 @@ function forecast(cityid){
 }
 	
 function addToList(c){
-	var listEl= $("<li>"+c.toUpperCase()+"</li>");
-	$(listEl).attr("class","list-group-item");
-	$(listEl).attr("data-value",c.toUpperCase());
-	$(".list-group").append(listEl);
+	var listCity = $("<li>"+c.toUpperCase()+"</li>");
+	$(listCity).attr("class","list-group-item");
+	$(listCity).attr("data-value",c.toUpperCase());
+	$(".list-group").append(listCity);
 }
 	
 function loadPastSearch(event){
-	var liEl=event.target;
+	var pastCity = event.target;
 	if (event.target.matches("li")){
-		city=liEl.textContent.trim();
+		city = pastCity.textContent.trim();
 		currentWeather(city);
 	}
 }
