@@ -72,10 +72,10 @@ function currentWeather(city){
 function UVIndex(ln,lt) {
 	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lt + "&lon=" + ln;
 	fetch(uvqURL)
-		.then(function(response) {
-			response.json().then(function(data) {
-				UVIndex(data)
-				console.log(data)
+		.then(function(UVFetch) {
+			UVFetch.json()
+		.then(function(UVResponse) {
+			UVResponse.value 
 		})
 	})
 }
@@ -83,16 +83,19 @@ UVIndex()
 
 function forecast(cityid){
 	var dayover = false;
-	var queryForcastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityid + "&appid=" + APIKey;
-	fetch(queryForcastURL)
-		.then(function(response){
+	var queryForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityid + "&appid=" + APIKey;
+	fetch(queryForecastURL)
+		.then(function(responseForecast) {
+			return responseForecast.json()
+		})
+		.then(function(responseForcast) {	
 			for (i = 0; i < 5; i++){
-				var date = new Date((response.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
-				var iconcode = response.list[((i+1)*8)-1].weather[0].icon;
+				var date = new Date((responseForecast.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
+				var iconcode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
 				var iconurl = "https://openweathermap.org/img/wn/" + iconcode + ".png";
-				var tempK = response.list[((i+1)*8)-1].main.temp;
+				var tempK = responseForecast.list[((i+1)*8)-1].main.temp;
 				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
-				var humidity = response.list[((i+1)*8)-1].main.humidity;
+				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
 			
 				$("#fDate" + i).html(date);
 				$("#fImg" + i).html("<img src=" + iconurl + ">");
