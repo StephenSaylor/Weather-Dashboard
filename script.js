@@ -31,7 +31,9 @@ function currentWeather(city){
     var queryURL= "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=" + APIKey;
     fetch(queryURL)
 		.then(function(response){
-        
+			return response.json()
+		})
+		.then(function(response) {	
 		var weatherIcon = response.weather[0].icon;
         var iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
         var date = new Date(response.dt*1000).toLocaleDateString();
@@ -67,13 +69,17 @@ function currentWeather(city){
     });
 }
 
-function UVIndex(ln,lt){
+function UVIndex(ln,lt) {
 	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lt + "&lon=" + ln;
 	fetch(uvqURL)
-		.then(function(response){
-			$(currentUvindex).html(response.value);
-		});
-	}
+		.then(function(response) {
+			response.json().then(function(data) {
+				UVIndex(data)
+				console.log(data)
+		})
+	})
+}
+UVIndex()
 
 function forecast(cityid){
 	var dayover = false;
