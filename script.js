@@ -91,14 +91,14 @@ function forecast(cityid){
 		.then(function(responseForcast) {	
 			for (i = 0; i < 5; i++){
 				var date = new Date((responseForecast.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
-				var iconcode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
-				var iconurl = "https://openweathermap.org/img/wn/" + iconcode + ".png";
+				var iconCode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
+				var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
 				var tempK = responseForecast.list[((i+1)*8)-1].main.temp;
 				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
 				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
 			
 				$("#fDate" + i).html(date);
-				$("#fImg" + i).html("<img src=" + iconurl + ">");
+				$("#fImg" + i).html("<img src=" + iconUrl + ">");
 				$("#fTemp" + i).html(tempF + "&#8457");
 				$("#fHumidity" + i).html(humidity + "%");
 		}
