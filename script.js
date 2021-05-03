@@ -8,7 +8,7 @@ var currentHumidty = $("#humidity");
 var currentWSpeed = $("#wind-speed");
 var currentUvindex = $("#uv-index");
 var sCity = [];
-var APIKey = "a0aca8a89948154a4182dcecc780b513";
+var APIKey = "5391cd1c9cda260fb72d17ac7e4e7609";
 
 function find(c){
     for (var i = 0; i < sCity.length; i++){
