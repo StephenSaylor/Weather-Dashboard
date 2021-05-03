@@ -97,10 +97,10 @@ function forecast(cityid){
 				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
 				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
 			
-				$("#fDate" + i).html(date);
-				$("#fImg" + i).html("<img src=" + iconUrl + ">");
-				$("#fTemp" + i).html(tempF + "&#8457");
-				$("#fHumidity" + i).html(humidity + "%");
+				$("#forecastDate" + i).html(date);
+				$("#forecastImg" + i).html("<img src=" + iconUrl + ">");
+				$("#forecastTemp" + i).html(tempF + "&#8457");
+				$("#forecastHumidity" + i).html(humidity + "%");
 		}
 	});
 }
