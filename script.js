@@ -29,15 +29,13 @@ function displayWeather(event){
 
 function currentWeather(city){
     var queryURL= "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=" + APIKey;
-    $.ajax({
-        url: queryURL,
-        method: "GET",
-    }).then(function(response){
+    fetch(queryURL)
+		.then(function(response){
         
-		var weathericon = response.weather[0].icon;
-        var iconurl = "https://openweathermap.org/img/wn/" + weathericon + "@2x.png";
+		var weatherIcon = response.weather[0].icon;
+        var iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
         var date = new Date(response.dt*1000).toLocaleDateString();
-        $(currentCity).html(response.name + "("+ date +")" + "<img src="+ iconurl +">");
+        $(currentCity).html(response.name + "("+ date +")" + "<img src="+ iconUrl +">");
         
 		var tempF = (response.main.temp - 273.15) * 1.80 + 32;
         $(currentTemperature).html((tempF).toFixed(2) + "&#8457");
