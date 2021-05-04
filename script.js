@@ -152,6 +152,6 @@ function clearHistory(event){
 
 //click events and default load last city 
 $("#search-button").on("click", displayWeather);
-$(document).on("click", loadPastSearch);
 $("#clear-history").on("click", clearHistory);
+$(document).on("click", loadPastSearch);
 $(window).on("load", loadLastCity);
