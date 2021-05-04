@@ -72,12 +72,12 @@ function currentWeather(city){
 }
 
 function UVIndex(lon,lat) {
-	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
+	var uviURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
 	$.ajax({
-		url:uvqURL,
-		method:"GET"
-		}).then(function(response){
-			$(currentUvindex).html(response.value);
+		url: uviURL,
+		method: "GET"
+		}).then(function(uviResponse){
+			$(currentUvindex).html(uviResponse.value);
 		});
 }
 
