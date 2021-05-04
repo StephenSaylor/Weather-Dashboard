@@ -73,11 +73,12 @@ function currentWeather(city){
 
 function UVIndex(lon,lat) {
 	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
-	fetch(uvqURL)
-		.then(function(response) {
-			console.log(response)
-			$(currentUvindex).html(response.value)
-	})
+	$.ajax({
+		url:uvqURL,
+		method:"GET"
+		}).then(function(response){
+			$(currentUvindex).html(response.value);
+		});
 }
 
 function forecast(cityid){
@@ -146,4 +147,3 @@ $("#search-button").on("click", displayWeather);
 $(document).on("click", loadPastSearch);
 $(window).on("load", loadLastCity);
 $("#clear-history").on("click", clearHistory);
-	
