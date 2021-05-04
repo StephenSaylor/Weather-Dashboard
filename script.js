@@ -27,6 +27,17 @@ function displayWeather(event){
     }
 }
 
+function UVIndex(lon,lat) {
+	var uviURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
+	fetch(uviURL)	
+		.then(function(HTTPResponse){
+			return HTTPResponse.json()
+		})
+		.then(function(uviData){
+			$(currentUvindex).html(uviData.value)
+	})
+}
+
 //main weather display
 function currentWeather(city){
     var queryURL= "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&APPID=" + APIKey;
@@ -47,10 +58,10 @@ function currentWeather(city){
 
 		var tempF = (response.main.temp - 273.15) * 1.80 + 32;
         $(currentTemperature).html((tempF).toFixed(2) + "&#8457");
-        $(currentHumidity).html(response.main.humidity + "%");
         
-        
-		UVIndex(response.coord.lon, response.coord.lat);
+		$(currentHumidity).html(response.main.humidity + "%");
+		
+		UVIndex(response.coord.lon, response.coord.lat)
         forecast(response.id);
         
 		if(response.cod == 200){
@@ -71,16 +82,6 @@ function currentWeather(city){
             }
         }
     });
-}
-
-function UVIndex(lon,lat) {
-	var uviURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
-	$.ajax({
-		url: uviURL,
-		method: "GET"
-		}).then(function(uviResponse){
-			$(currentUvindex).html(uviResponse.value);
-		});
 }
 
 //five day forecast
@@ -105,8 +106,9 @@ function forecast(cityid){
 				$("#forecastDate" + i).html(date);
 				$("#forecastImg" + i).html("<img src=" + iconUrl + ">");
 				$("#forecastTemp" + i).html(tempF + "&#8457");
-				$("#forecastHumidity" + i).html(humidity + "%");
 				$("#forecastWind" + i).html(wind + "MPH");
+				$("#forecastHumidity" + i).html(humidity + "%");
+				
 		}
 	});
 }
