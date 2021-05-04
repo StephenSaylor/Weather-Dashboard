@@ -5,7 +5,7 @@ var clearButton = $("#clear-history");
 var currentCity = $("#current-city");
 var currentTemperature = $("#temperature");
 var currentHumidity = $("#humidity");
-var currentWSpeed = $("#wind-speed");
+var currentWindSpeed = $("#wind-speed");
 var currentUvindex = $("#uv-index");
 var cityArray = [];
 var APIKey = "5391cd1c9cda260fb72d17ac7e4e7609";
@@ -34,14 +34,15 @@ function currentWeather(city){
 			return response.json()
 		})
 		.then(function(response) {	
+		
+		var date = new Date(response.dt * 1000).toLocaleDateString();
 		var weatherIcon = response.weather[0].icon;
         var iconUrl = "https://openweathermap.org/img/wn/" + weatherIcon + "@2x.png";
-        var date = new Date(response.dt*1000).toLocaleDateString();
         $(currentCity).html(response.name + "("+ date +")" + "<img src="+ iconUrl +">");
         
 		var ws = response.wind.speed;
-        var windsmph = (ws*2.237).toFixed(1);
-        $(currentWSpeed).html(windsmph + "MPH");
+        var wsMPH = (ws * 2.237).toFixed(1);
+        $(currentWindSpeed).html(wsMPH + "MPH");
 
 		var tempF = (response.main.temp - 273.15) * 1.80 + 32;
         $(currentTemperature).html((tempF).toFixed(2) + "&#8457");
@@ -92,11 +93,11 @@ function forecast(cityid){
 		.then(function(responseForecast) {	
 			for (i = 0; i < 5; i++){
 				var date = new Date((responseForecast.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
-				var tempK = responseForecast.list[((i+1)*8)-1].main.temp;
-				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
-				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
-				var wind = responseForecast.list[((i+1)*8)-1].wind.speed;
-				var iconCode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
+				var tempK = responseForecast.list[((i + 1) * 8) -1].main.temp;
+				var tempF = (((tempK-273.5) * 1.80) +32).toFixed(2);
+				var humidity = responseForecast.list[((i + 1) * 8) -1].main.humidity;
+				var wind = responseForecast.list[((i + 1) * 8) -1].wind.speed;
+				var iconCode = responseForecast.list[((i + 1) * 8) -1].weather[0].icon;
 				var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
 			
 				$("#forecastDate" + i).html(date);
