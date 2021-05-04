@@ -22,7 +22,7 @@ function find(c){
 function displayWeather(event){
     event.preventDefault();
     if(searchCity.val().trim() !== ""){
-        city=searchCity.val().trim();
+        city = searchCity.val().trim();
         currentWeather(city);
     }
 }
@@ -39,17 +39,19 @@ function currentWeather(city){
         var date = new Date(response.dt*1000).toLocaleDateString();
         $(currentCity).html(response.name + "("+ date +")" + "<img src="+ iconUrl +">");
         
+		var ws = response.wind.speed;
+        var windsmph = (ws*2.237).toFixed(1);
+        $(currentWSpeed).html(windsmph + "MPH");
+
 		var tempF = (response.main.temp - 273.15) * 1.80 + 32;
         $(currentTemperature).html((tempF).toFixed(2) + "&#8457");
         $(currentHumidity).html(response.main.humidity + "%");
         
-		var ws = response.wind.speed;
-        var windsmph = (ws*2.237).toFixed(1);
-        $(currentWSpeed).html(windsmph + "MPH");
         
-		UVIndex(response.coord.lon,response.coord.lat);
+		UVIndex(response.coord.lon, response.coord.lat);
         forecast(response.id);
-        if(response.cod == 200){
+        
+		if(response.cod == 200){
             cityArray = JSON.parse(localStorage.getItem("cityname"));
             if (cityArray == null){
                 cityArray = [];
@@ -69,23 +71,21 @@ function currentWeather(city){
     });
 }
 
-function UVIndex(ln,lt) {
-	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lt + "&lon=" + ln;
+function UVIndex(lon,lat) {
+	var uvqURL = "https://api.openweathermap.org/data/2.5/uvi?appid=" + APIKey + "&lat=" + lat + "&lon=" + lon;
 	fetch(uvqURL)
-		.then(function(UVFetch) {
-			UVFetch.json()
-		.then(function(UVResponse) {
-			UVResponse.value 
-		})
+		.then(function(response) {
+			console.log(response)
+			$(currentUvindex).html(response.value)
 	})
 }
-UVIndex()
 
 function forecast(cityid){
 	var dayover = false;
 	var queryForecastURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityid + "&appid=" + APIKey;
 	fetch(queryForecastURL)
 		.then(function(responseForecast) {
+			console.log(responseForecast)
 			return responseForecast.json()
 		})
 		.then(function(responseForecast) {	
@@ -96,11 +96,13 @@ function forecast(cityid){
 				var tempK = responseForecast.list[((i+1)*8)-1].main.temp;
 				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
 				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
+				var wind = responseForecast.list[((i+1)*8)-1].wind.speed;
 			
 				$("#forecastDate" + i).html(date);
 				$("#forecastImg" + i).html("<img src=" + iconUrl + ">");
 				$("#forecastTemp" + i).html(tempF + "&#8457");
 				$("#forecastHumidity" + i).html(humidity + "%");
+				$("#forecastWind" + i).html(wind + "MPH");
 		}
 	});
 }
