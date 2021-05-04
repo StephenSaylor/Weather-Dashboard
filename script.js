@@ -92,12 +92,12 @@ function forecast(cityid){
 		.then(function(responseForecast) {	
 			for (i = 0; i < 5; i++){
 				var date = new Date((responseForecast.list[((i+1)*8)-1].dt)*1000).toLocaleDateString();
-				var iconCode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
-				var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
 				var tempK = responseForecast.list[((i+1)*8)-1].main.temp;
 				var tempF = (((tempK-273.5)*1.80)+32).toFixed(2);
 				var humidity = responseForecast.list[((i+1)*8)-1].main.humidity;
 				var wind = responseForecast.list[((i+1)*8)-1].wind.speed;
+				var iconCode = responseForecast.list[((i+1)*8)-1].weather[0].icon;
+				var iconUrl = "https://openweathermap.org/img/wn/" + iconCode + ".png";
 			
 				$("#forecastDate" + i).html(date);
 				$("#forecastImg" + i).html("<img src=" + iconUrl + ">");
@@ -106,13 +106,6 @@ function forecast(cityid){
 				$("#forecastWind" + i).html(wind + "MPH");
 		}
 	});
-}
-	
-function addToList(c){
-	var listCity = $("<li>"+c.toUpperCase()+"</li>");
-	$(listCity).attr("class","list-group-item");
-	$(listCity).attr("data-value",c.toUpperCase());
-	$(".list-group").append(listCity);
 }
 	
 function loadPastSearch(event){
@@ -135,6 +128,13 @@ function loadLastCity(){
 		currentWeather(city);
 		}	
 	}
+
+function addToList(c){
+	var listCity = $("<li>"+c.toUpperCase()+"</li>");
+	$(listCity).attr("class","list-group-item");
+	$(listCity).attr("data-value",c.toUpperCase());
+	$(".list-group").append(listCity);
+}
 
 function clearHistory(event){
 	event.preventDefault();
